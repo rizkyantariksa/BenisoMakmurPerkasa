@@ -184,3 +184,53 @@
     letter-spacing: -0.01em;
   }
 }
+
+/* Transisi & animasi global */
+@layer base {
+  html.smooth-scroll {
+    scroll-behavior: smooth;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+  a,
+  button {
+    transition:
+      color 200ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease,
+      opacity 200ms ease,
+      transform 200ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.smooth-scroll {
+    scroll-behavior: auto;
+  }
+}
+
+/* Reveal on scroll — state awal ada di HTML (SSR) supaya tidak ada kedipan */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal][data-reveal-instant] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

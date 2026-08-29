@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Placeholder } from "@/components/site/Placeholder";
 
 export const Route = createFileRoute("/")({
@@ -109,13 +110,81 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 function Index() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+
+    const revealAll = (instant: boolean) =>
+      nodes.forEach((node) => {
+        if (instant) node.setAttribute("data-reveal-instant", "");
+        node.classList.add("is-visible");
+      });
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealAll(true);
+      return;
+    }
+
+    // Section yang sudah terlihat (atau sudah dilewati) saat JS jalan:
+    // tampilkan tanpa animasi supaya tidak "kedip" atau menunggu load.
+    const vh = window.innerHeight;
+    const pending: HTMLElement[] = [];
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      if (rect.top < vh * 0.92) {
+        node.setAttribute("data-reveal-instant", "");
+        node.classList.add("is-visible");
+        requestAnimationFrame(() => node.removeAttribute("data-reveal-instant"));
+      } else {
+        pending.push(node);
+      }
+    });
+
+    // Smooth scroll baru diaktifkan setelah mount, supaya restorasi posisi
+    // scroll browser tidak ikut "terbang" balik ke atas.
+    requestAnimationFrame(() => root.classList.add("smooth-scroll"));
+
+    // Cek berbasis scroll (rAF-throttled): tetap akurat walau user scroll
+    // sangat cepat atau melompat, jadi tidak ada section yang "tertinggal".
+    let pendingNodes = pending;
+    let ticking = false;
+
+    const check = () => {
+      ticking = false;
+      const limit = window.innerHeight * 0.88;
+      pendingNodes = pendingNodes.filter((node) => {
+        if (node.getBoundingClientRect().top < limit) {
+          node.classList.add("is-visible");
+          return false;
+        }
+        return true;
+      });
+      if (pendingNodes.length === 0) {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(check);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Notice mockup */}
-      <div className="bg-accent px-4 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-foreground">
-        Mockup — foto, logo & sertifikat masih placeholder
-      </div>
-
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
@@ -221,7 +290,7 @@ function Index() {
         </section>
 
         {/* Tentang */}
-        <section id="tentang" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+        <section data-reveal id="tentang" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <div>
               <SectionLabel>Tentang Kami</SectionLabel>
@@ -253,8 +322,8 @@ function Index() {
                   Visi
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  Responsif &amp; solutif dalam memberikan nilai tambah kepada pelanggan
-                  melalui produk &amp; layanan berkualitas.
+                  Menjadi perusahaan kelas dunia yang bernilai di bidang perdagangan, konstruksi dan jasa fabrikasi
+                  dengan kualitas pelayanan terbaik bagi kepuasan semua pihak.
                 </p>
               </div>
               <div className="rounded-sm border-l-4 border-l-primary border-border bg-card p-6">
@@ -264,13 +333,22 @@ function Index() {
                 <ul className="mt-3 space-y-3 text-sm leading-relaxed text-muted-foreground">
                   <li className="flex gap-2">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                    Meningkatkan kesejahteraan &amp; mengembangkan kompetensi karyawan untuk
-                    menjawab kebutuhan pelanggan.
+                    Menjadi mitra pelanggan yang paling utama dalam pengadaan barang dan jasa.
                   </li>
                   <li className="flex gap-2">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                    Memberikan pelayanan profesional yang memenuhi standar K3 (kesehatan,
-                    keselamatan kerja &amp; lingkungan).
+                    Memberikan pelayanan yang professional dengan mematuhi kaidah yang berlaku serta
+                    memenuhi standar Kesehatan, keselamatan kerja dan ramah lingkungan.
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    Meningkatkan dan mengembangkan keterampilan, pengetahuan, kinerja karyawan
+                    agar dapat memenuhi setiap kebutuhan pelanggan.
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    Menjamin imbalan kerja yang pasti untuk kesejahteraan karyawan
+                    agar memastikan pertumbuhan perusahaan bagi pemegang saham.
                   </li>
                 </ul>
               </div>
@@ -296,7 +374,7 @@ function Index() {
         </section>
 
         {/* Layanan */}
-        <section id="layanan" className="border-y border-border bg-secondary/60">
+        <section data-reveal id="layanan" className="border-y border-border bg-secondary/60">
           <div className="mx-auto max-w-6xl px-5 py-16 md:py-24">
             <SectionLabel>Layanan</SectionLabel>
             <h2 className="max-w-2xl font-display text-3xl font-bold sm:text-4xl">
@@ -322,7 +400,7 @@ function Index() {
         </section>
 
         {/* Proyek */}
-        <section id="proyek" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+        <section data-reveal id="proyek" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <SectionLabel>Our Fabrication Project</SectionLabel>
@@ -347,7 +425,7 @@ function Index() {
         </section>
 
         {/* Workshop */}
-        <section id="workshop" className="bg-steel text-steel-foreground">
+        <section data-reveal id="workshop" className="bg-steel text-steel-foreground">
           <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
               <SectionLabel>Our Workshop</SectionLabel>
@@ -379,7 +457,7 @@ function Index() {
         </section>
 
         {/* Sertifikasi */}
-        <section id="sertifikasi" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+        <section data-reveal id="sertifikasi" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <SectionLabel>Sertifikasi &amp; Legalitas</SectionLabel>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-display text-3xl font-bold sm:text-4xl">
@@ -411,7 +489,7 @@ function Index() {
         </section>
 
         {/* Klien */}
-        <section id="klien" className="border-y border-border bg-secondary/60">
+        <section data-reveal id="klien" className="border-y border-border bg-secondary/60">
           <div className="mx-auto max-w-6xl px-5 py-16 md:py-24">
             <SectionLabel>Our Customer</SectionLabel>
             <h2 className="font-display text-3xl font-bold sm:text-4xl">
@@ -434,7 +512,7 @@ function Index() {
         </section>
 
         {/* Kontak */}
-        <section id="kontak" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+        <section data-reveal id="kontak" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <div className="grid gap-10 lg:grid-cols-2">
             <div>
               <SectionLabel>Kontak</SectionLabel>

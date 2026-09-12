@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { label: "Tentang", href: "#tentang" },
-  { label: "Highlights", href: "#key-factors" },
+  { label: "Key Factors", href: "#key-factors" },
   { label: "Layanan", href: "#layanan" },
   { label: "Proyek", href: "#proyek" },
   { label: "Workshop", href: "#workshop" },
@@ -30,6 +30,10 @@ const SOCIALS = [
   { label: "TikTok", href: "#" },
 ];
 
+// Slide background hero. Isi "gambar" dengan path file di /public begitu
+// tersedia (mis. "/images/hero/1.jpg"); dikosongkan dulu = tampil placeholder.
+// "posisi" atur bagian gambar mana yang ditonjolkan (object-position), mis.
+// "center", "top", "bottom", "20% 70%". Default "center" kalau tidak diisi.
 const HERO_SLIDES = [
   { label: "Foto hero workshop", gambar: "/images/hero/hero_1.jpeg", posisi: "center" },
   { label: "Proses pengelasan", gambar: "/images/hero/hero_2.jpeg", posisi: "center" },
@@ -158,8 +162,15 @@ const SERTIFIKASI = [
   },
 ];
 
+// Data klien. Isi "logo" dengan path file begitu tersedia (mis. "/images/klien/cmwi.png").
+// Kalau "logo" dikosongkan (""), nama perusahaan tetap tampil di daftar teks di bawah
+// grid logo — jadi aman ditambah kapan saja tanpa mengubah tata letak.
+// Data klien. Isi "logo" dengan path file begitu tersedia (mis. "/images/klien/cmwi.png").
+// Isi "website" kalau perusahaan itu punya website (mis. "https://cmwi.com") — tile logo
+// akan otomatis bisa diklik dan buka website tersebut di tab baru. Kalau "website" dikosongkan
+// (""), tile logo tetap tampil seperti biasa, cuma tidak bisa diklik.
 const KLIEN = [
-  { nama: "PT. Central Motor Wheel Indonesia", logo: "/images/klien/cmwi.png", website: "https://www.cmwi.co.id" },
+  { nama: "PT. Central Motor Wheel Indonesia", logo: "/images/klien/cmwi.png", website: "" },
   { nama: "PT. MTAT Indonesia", logo: "/images/klien/mtat.png", website: "" },
   { nama: "PT. Itomol Indonesia", logo: "/images/klien/itomol.png", website: "" },
   { nama: "PT. Tunas Teknologi Cemerlang", logo: "", website: "" },
@@ -444,17 +455,11 @@ function Index() {
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
           <a href="#" className="flex items-center gap-3">
-            <span
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${
-                scrolled ? "" : "bg-white/95 p-1 shadow-sm shadow-black/10"
-              }`}
-            >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white p-1 shadow-sm shadow-black/10">
               <img
                 src="/beniso-logo.png"
                 alt="Logo PT Beniso Makmur Perkasa"
-                className={`h-full w-full rounded-full object-cover ${
-                  scrolled ? "shadow-sm shadow-primary/20" : ""
-                }`}
+                className="h-full w-full rounded-full object-contain"
               />
             </span>
             <span className="leading-tight">
@@ -516,11 +521,13 @@ function Index() {
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-3"
           >
-            <img
-              src="/beniso-logo.png"
-              alt="Logo PT Beniso Makmur Perkasa"
-              className="h-9 w-9 shrink-0 rounded-full object-cover"
-            />
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white p-1 shadow-sm shadow-black/10">
+              <img
+                src="/beniso-logo.png"
+                alt="Logo PT Beniso Makmur Perkasa"
+                className="h-full w-full rounded-full object-contain"
+              />
+            </span>
             <span className="font-display text-sm font-bold tracking-tight text-foreground">
               PT BENISO MAKMUR PERKASA
             </span>
@@ -1051,15 +1058,16 @@ function Index() {
         </section>
       </main>
 
-      <footer className="border-t-4 border-t-primary bg-steel text-steel-foreground">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 text-sm sm:grid-cols-3">
+      <footer className="relative border-t-4 border-t-primary bg-steel text-steel-foreground">
+        <div className="pointer-events-none absolute inset-0 bg-black/12" />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 text-sm sm:grid-cols-3">
           <div>
             <a href="#" className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/95 p-1 shadow-sm shadow-black/10">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white p-1 shadow-sm shadow-black/10">
                 <img
                   src="/beniso-logo.png"
                   alt="Logo PT Beniso Makmur Perkasa"
-                  className="h-full w-full rounded-full object-cover"
+                  className="h-full w-full rounded-full object-contain"
                 />
               </span>
               <span className="font-display text-sm font-bold uppercase leading-tight tracking-tight">
@@ -1137,7 +1145,7 @@ function Index() {
           </div>
         </div>
 
-        <div className="border-t border-steel-foreground/15">
+        <div className="relative border-t border-steel-foreground/15">
           <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 font-mono text-[11px] uppercase tracking-[0.1em] text-steel-foreground/50 sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} PT Beniso Makmur Perkasa. All rights reserved.</p>
             <p>Est. 2020 — Cikarang Timur, Indonesia</p>

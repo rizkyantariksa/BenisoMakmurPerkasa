@@ -24,16 +24,15 @@ const NAV = [
   { label: "Kontak", href: "#kontak" },
 ];
 
-// Ganti href berikut dengan tautan IG & TikTok resmi perusahaan.
+// Tautan sosial media resmi perusahaan.
 const SOCIALS = [
   { label: "Instagram", href: "#" },
   { label: "TikTok", href: "#" },
 ];
 
-// Slide background hero. Isi "gambar" dengan path file di /public begitu
-// tersedia (mis. "/images/hero/1.jpg"); dikosongkan dulu = tampil placeholder.
-// "posisi" atur bagian gambar mana yang ditonjolkan (object-position), mis.
-// "center", "top", "bottom", "20% 70%". Default "center" kalau tidak diisi.
+// Data slide background hero. "gambar" adalah path file di /public (kosong
+// = tampil placeholder). "posisi" adalah nilai CSS object-position (mis.
+// "center", "top", "bottom", "20% 70%"); default "center" kalau tidak diisi.
 const HERO_SLIDES = [
   { label: "Foto hero workshop", gambar: "/images/hero/hero_1.jpeg", posisi: "center" },
   { label: "Proses pengelasan", gambar: "/images/hero/hero_2.jpeg", posisi: "center" },
@@ -104,8 +103,8 @@ const STATS = [
   { value: "K3", label: "Standar keselamatan kerja" },
 ];
 
-// Foto tim / kantor di section Tentang Kami. Isi path-nya begitu ada filenya.
-// "posisi" = object-position, atur bagian mana dari foto yang ditonjolkan.
+// Foto tim / kantor di section Tentang Kami.
+// "posisi" adalah nilai CSS object-position untuk foto.
 const TENTANG_FOTO = { gambar: "/images/tentangkami/tentang_kami.jpg", posisi: "center" };
 
 const PROYEK = [
@@ -120,7 +119,7 @@ const PROYEK = [
   { nama: "Metal cart beroda", gambar: "images/proyek/Metal_cart_beroda.jpeg", posisi: "center" },
 ];
 
-// Foto section Workshop. Isi path-nya begitu ada filenya. "posisi" = object-position.
+// Foto section Workshop. "posisi" adalah nilai CSS object-position.
 const WORKSHOP_FOTO = {
   eksterior: { gambar: "images/workshop/Eksterior_workshop.jpeg", posisi: "center" },
   produksi: { gambar: "images/workshop/Area_produksi.jpeg", posisi: "center" },
@@ -162,13 +161,9 @@ const SERTIFIKASI = [
   },
 ];
 
-// Data klien. Isi "logo" dengan path file begitu tersedia (mis. "/images/klien/cmwi.png").
-// Kalau "logo" dikosongkan (""), nama perusahaan tetap tampil di daftar teks di bawah
-// grid logo — jadi aman ditambah kapan saja tanpa mengubah tata letak.
-// Data klien. Isi "logo" dengan path file begitu tersedia (mis. "/images/klien/cmwi.png").
-// Isi "website" kalau perusahaan itu punya website (mis. "https://cmwi.com") — tile logo
-// akan otomatis bisa diklik dan buka website tersebut di tab baru. Kalau "website" dikosongkan
-// (""), tile logo tetap tampil seperti biasa, cuma tidak bisa diklik.
+// Data klien. "logo" kosong ("") berarti nama perusahaan tampil sebagai teks
+// di bawah grid logo. "website" kosong ("") berarti tile logo tidak bisa diklik;
+// kalau diisi, tile logo akan membuka website tersebut di tab baru.
 const KLIEN = [
   { nama: "PT. Central Motor Wheel Indonesia", logo: "/images/klien/cmwi.png", website: "" },
   { nama: "PT. MTAT Indonesia", logo: "/images/klien/mtat.png", website: "" },

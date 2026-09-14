@@ -15,12 +15,9 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { label: "Tentang", href: "#tentang" },
-  { label: "Key Factors", href: "#key-factors" },
   { label: "Layanan", href: "#layanan" },
-  { label: "Proyek", href: "#proyek" },
+  { label: "Produk", href: "#produk" },
   { label: "Workshop", href: "#workshop" },
-  { label: "Sertifikasi", href: "#sertifikasi" },
-  { label: "Klien", href: "#klien" },
   { label: "Kontak", href: "#kontak" },
 ];
 
@@ -30,9 +27,6 @@ const SOCIALS = [
   { label: "TikTok", href: "#" },
 ];
 
-// Data slide background hero. "gambar" adalah path file di /public (kosong
-// = tampil placeholder). "posisi" adalah nilai CSS object-position (mis.
-// "center", "top", "bottom", "20% 70%"); default "center" kalau tidak diisi.
 const HERO_SLIDES = [
   { label: "Foto hero workshop", gambar: "/images/hero/hero_1.jpeg", posisi: "center" },
   { label: "Proses pengelasan", gambar: "/images/hero/hero_2.jpeg", posisi: "center" },
@@ -103,11 +97,15 @@ const STATS = [
   { value: "K3", label: "Standar keselamatan kerja" },
 ];
 
-// Foto tim / kantor di section Tentang Kami.
-// "posisi" adalah nilai CSS object-position untuk foto.
-const TENTANG_FOTO = { gambar: "/images/tentangkami/tentang_kami.jpg", posisi: "center" };
+const TENTANG_FOTO = { gambar: "/images/tentangkami/tentang_kami.jpg", posisi: "center 43%" };
 
-const PROYEK = [
+const OUR_OFFICE = [
+  { nama: "Ruang Kantor Staff", gambar: "images/office/staff_room.png", posisi: "center" },
+  { nama: "Ruang Meeting Internal", gambar: "images/office/meeting_room.png", posisi: "center" },
+  { nama: "Lobby Kantor", gambar: "images/office/lobby.png", posisi: "center" },
+];
+
+const PRODUK = [
   { nama: "Industrial lift structure", gambar: "images/proyek/Industrial_lift_structure.jpeg", posisi: "center" },
   { nama: "Wire mesh storage cage", gambar: "images/proyek/Wire_mesh_storage_cage.jpeg", posisi: "center" },
   { nama: "Orange frame rack (MAP-I 405)", gambar: "images/proyek/Orange_frame_rack_(MAP-I 405).jpeg", posisi: "center" },
@@ -119,7 +117,6 @@ const PROYEK = [
   { nama: "Metal cart beroda", gambar: "images/proyek/Metal_cart_beroda.jpeg", posisi: "center" },
 ];
 
-// Foto section Workshop. "posisi" adalah nilai CSS object-position.
 const WORKSHOP_FOTO = {
   eksterior: { gambar: "images/workshop/Eksterior_workshop.jpeg", posisi: "center" },
   produksi: { gambar: "images/workshop/Area_produksi.jpeg", posisi: "center" },
@@ -161,11 +158,8 @@ const SERTIFIKASI = [
   },
 ];
 
-// Data klien. "logo" kosong ("") berarti nama perusahaan tampil sebagai teks
-// di bawah grid logo. "website" kosong ("") berarti tile logo tidak bisa diklik;
-// kalau diisi, tile logo akan membuka website tersebut di tab baru.
 const KLIEN = [
-  { nama: "PT. Central Motor Wheel Indonesia", logo: "/images/klien/cmwi.png", website: "" },
+  { nama: "PT. Central Motor Wheel Indonesia", logo: "/images/klien/cmwi.png", website: "https://www.cmwi.co.id" },
   { nama: "PT. MTAT Indonesia", logo: "/images/klien/mtat.png", website: "" },
   { nama: "PT. Itomol Indonesia", logo: "/images/klien/itomol.png", website: "" },
   { nama: "PT. Tunas Teknologi Cemerlang", logo: "", website: "" },
@@ -528,7 +522,7 @@ function Index() {
               />
             </span>
             <span className="font-display text-sm font-bold tracking-tight text-foreground">
-              PT BENISO MAKMUR PERKASA
+              BENISO MAKMUR PERKASA
             </span>
           </a>
           <button
@@ -607,7 +601,7 @@ function Index() {
                     Konsultasi Proyek
                   </a>
                   <a
-                    href="#proyek"
+                    href="#produk"
                     className="rounded-sm border border-primary-foreground/30 px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:border-primary-foreground hover:bg-primary-foreground/10"
                   >
                     Lihat Hasil Kerja
@@ -679,8 +673,8 @@ function Index() {
                       01
                     </span>
                     <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-                      Meningkatkan kesejahteraan &amp; mengembangkan kompetensi karyawan di
-                      perusahaan untuk menjawab kebutuhan pelanggan.
+                      Memberikan pelayanan dengan sikap profesional yang memenuhi standar K3
+                      (Kesehatan, Keselamatan Kerja &amp; Lingkungan).
                     </p>
                   </li>
                   <li className="flex gap-4">
@@ -688,8 +682,8 @@ function Index() {
                       02
                     </span>
                     <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-                      Memberikan pelayanan dengan sikap profesional yang memenuhi standar K3
-                      (Kesehatan, Keselamatan Kerja &amp; Lingkungan).
+                      Meningkatkan kesejahteraan &amp; mengembangkan kompetensi karyawan di
+                      perusahaan untuk menjawab kebutuhan pelanggan.
                     </p>
                   </li>
                 </ul>
@@ -760,16 +754,16 @@ function Index() {
           </div>
         </section>
 
-        {/* Proyek */}
-        <section data-reveal id="proyek" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+        {/* Produk */}
+        <section data-reveal id="produk" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <SectionLabel>Our Fabrication Project</SectionLabel>
-              <h2 className="font-display text-4xl font-bold sm:text-5xl">Hasil kerja kami</h2>
+              <SectionLabel>Our Products</SectionLabel>
+              <h2 className="font-display text-4xl font-bold sm:text-5xl">Produk Kami</h2>
             </div>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {PROYEK.map((p) => (
+            {PRODUK.map((p) => (
               <figure key={p.nama} className="group">
                 {p.gambar ? (
                   <img
@@ -974,6 +968,31 @@ function Index() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Our Office */}
+        <section data-reveal id="our-office" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+          <SectionLabel>Our Office</SectionLabel>
+          <h2 className="font-display text-4xl font-bold sm:text-5xl">
+            Lingkungan kerja yang mendukung setiap proyek.
+          </h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {OUR_OFFICE.map((o) => (
+              <figure key={o.nama} className="group">
+                {o.gambar ? (
+                  <img
+                    src={o.gambar}
+                    alt={o.nama}
+                    style={{ objectPosition: o.posisi }}
+                    className="aspect-[3/4] w-full rounded-sm border border-border object-cover"
+                  />
+                ) : (
+                  <Placeholder label="Foto kantor" ratio="3 / 4" />
+                )}
+                <figcaption className="mt-2 text-xs font-medium">{o.nama}</figcaption>
+              </figure>
+            ))}
           </div>
         </section>
 

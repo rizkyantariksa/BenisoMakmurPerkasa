@@ -588,7 +588,7 @@ function Index() {
               </h1>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
                 PT Beniso Makmur Perkasa mengerjakan pembuatan dan pengerjaan produk logam
-                dengan spesialisasi pengelasan — dari perencanaan, pemotongan, pembentukan,
+                dengan spesialisasi pengelasan mulai dari perencanaan, pemotongan, pembentukan,
                 sampai pengelasan komponen sesuai standar mutu dan K3.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
@@ -634,7 +634,7 @@ function Index() {
               <div className="mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground">
                 <p>
                   Berdiri sejak 20 Februari 2020, kami bergerak di bidang pembuatan dan
-                  pengerjaan produk logam dengan spesialisasi pada proses pengelasan —
+                  pengerjaan produk logam dengan spesialisasi pada proses pengelasan, serta
                   menjamin kualitas, presisi, dan daya tahan setiap hasil produksi sesuai
                   standar industri.
                 </p>
@@ -1143,7 +1143,7 @@ function Index() {
         <div className="relative border-t border-steel-foreground/15">
           <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 font-mono text-[11px] uppercase tracking-[0.1em] text-steel-foreground/50 sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} PT Beniso Makmur Perkasa. All rights reserved.</p>
-            <p>Est. 2020 — Cikarang Timur, Indonesia</p>
+            <p>Est. 2020 - Cikarang Timur, Indonesia</p>
           </div>
         </div>
       </footer>

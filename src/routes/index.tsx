@@ -310,37 +310,41 @@ function HeroSlider() {
       {/* Scrim supaya teks tetap terbaca di atas foto */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/60 to-transparent" />
 
-      {/* Kontrol panah */}
-      <button
-        type="button"
-        onClick={() => go(-1)}
-        aria-label="Slide sebelumnya"
-        className="group absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur transition-colors hover:bg-primary-foreground/20 sm:left-5 sm:h-11 sm:w-11"
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        onClick={() => go(1)}
-        aria-label="Slide berikutnya"
-        className="group absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur transition-colors hover:bg-primary-foreground/20 sm:right-5 sm:h-11 sm:w-11"
-      >
-        ›
-      </button>
+      {/* Kontrol slider: panah + indikator titik digabung jadi satu baris di
+          bawah, supaya posisinya tidak pernah tumpang tindih dengan teks
+          hero di layar sempit (posisinya tidak bergantung tinggi konten). */}
+      <div className="absolute inset-x-0 bottom-5 z-10 flex items-center justify-center gap-4 sm:bottom-6">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          aria-label="Slide sebelumnya"
+          className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur transition-colors hover:bg-primary-foreground/20 sm:h-10 sm:w-10"
+        >
+          ‹
+        </button>
 
-      {/* Indikator titik */}
-      <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-        {HERO_SLIDES.map((slide, i) => (
-          <button
-            key={slide.label}
-            type="button"
-            onClick={() => setActive(i)}
-            aria-label={`Ke slide ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all ${
-              i === active ? "w-6 bg-primary-foreground" : "w-1.5 bg-primary-foreground/40"
-            }`}
-          />
-        ))}
+        <div className="flex items-center gap-2">
+          {HERO_SLIDES.map((slide, i) => (
+            <button
+              key={slide.label}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-label={`Ke slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${
+                i === active ? "w-6 bg-primary-foreground" : "w-1.5 bg-primary-foreground/40"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => go(1)}
+          aria-label="Slide berikutnya"
+          className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground backdrop-blur transition-colors hover:bg-primary-foreground/20 sm:h-10 sm:w-10"
+        >
+          ›
+        </button>
       </div>
     </div>
   );
@@ -563,47 +567,52 @@ function Index() {
       <main>
         {/* Hero */}
         <section className="relative flex min-h-screen flex-col overflow-hidden bg-primary text-primary-foreground">
-          <HeroSlider />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, currentColor 0 1px, transparent 1px 64px)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-white/10 blur-3xl"
-          />
-          <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 py-24">
-            <div className="max-w-2xl">
-              <h1 className="font-display text-5xl font-extrabold leading-[1.05] sm:text-6xl lg:text-7xl">
-                Fabrikasi logam presisi,
-                <span className="block text-primary-foreground/90">dikerjakan sekali jadi.</span>
-              </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
-                PT Beniso Makmur Perkasa mengerjakan pembuatan dan pengerjaan produk logam
-                dengan spesialisasi pengelasan mulai dari perencanaan, pemotongan, pembentukan,
-                sampai pengelasan komponen sesuai standar mutu dan K3.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#kontak"
-                  className="rounded-sm bg-primary-foreground px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary shadow-sm shadow-black/10 transition-opacity hover:opacity-90"
-                >
-                  Konsultasi Proyek
-                </a>
-                <a
-                  href="#proyek"
-                  className="rounded-sm border border-primary-foreground/30 px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:border-primary-foreground hover:bg-primary-foreground/10"
-                >
-                  Lihat Hasil Kerja
-                </a>
+          {/* Wrapper visual+teks hero, terpisah dari blok statistik di bawah,
+              supaya kontrol slider (absolute bottom-5 di dalam HeroSlider)
+              berhenti di atas statistik, bukan di dasar section penuh. */}
+          <div className="relative flex flex-1 flex-col overflow-hidden">
+            <HeroSlider />
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 64px), repeating-linear-gradient(0deg, currentColor 0 1px, transparent 1px 64px)",
+              }}
+            />
+            <div
+              aria-hidden
+              className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-white/10 blur-3xl"
+            />
+            <div className="relative mx-auto flex w-full max-w-7xl flex-1 items-center px-5 py-24">
+              <div className="max-w-2xl">
+                <h1 className="font-display text-5xl font-extrabold leading-[1.05] sm:text-6xl lg:text-7xl">
+                  Fabrikasi logam presisi,
+                  <span className="block text-primary-foreground/90">dikerjakan sekali jadi.</span>
+                </h1>
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
+                  PT Beniso Makmur Perkasa mengerjakan pembuatan dan pengerjaan produk logam
+                  dengan spesialisasi pengelasan mulai dari perencanaan, pemotongan, pembentukan,
+                  sampai pengelasan komponen sesuai standar mutu dan K3.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href="#kontak"
+                    className="rounded-sm bg-primary-foreground px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary shadow-sm shadow-black/10 transition-opacity hover:opacity-90"
+                  >
+                    Konsultasi Proyek
+                  </a>
+                  <a
+                    href="#proyek"
+                    className="rounded-sm border border-primary-foreground/30 px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:border-primary-foreground hover:bg-primary-foreground/10"
+                  >
+                    Lihat Hasil Kerja
+                  </a>
+                </div>
               </div>
             </div>
           </div>
